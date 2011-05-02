@@ -15,6 +15,11 @@ public:
     explicit Radio_Jam_Client(QWidget *parent = 0);
     ~Radio_Jam_Client();
 
+private slots:
+    void on_lineEdit_textEdited(QString );
+
+    void on_txtNote_textEdited(QString );
+
 private:
     Ui::Radio_Jam_Client *ui;
 };
