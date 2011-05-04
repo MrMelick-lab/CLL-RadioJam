@@ -67,7 +67,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pbConnection">
+   <widget class="QPushButton" name="btnConnection">
     <property name="geometry">
      <rect>
       <x>640</x>

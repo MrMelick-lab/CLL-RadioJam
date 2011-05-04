@@ -19,7 +19,22 @@ void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A deleter
 }
 
 //Prend les touches du clavier et on les envois au thread qui les envois au serveur
-void Radio_Jam_Client::on_txtNote_textEdited(QString touche )
+void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
 {
+    touche = touche.toUpper(); //Met en majuscule la touche entrée pour valider
+    QByteArray note = touche.toAscii(); //Met en ascii dans un tableau d'octet pour comparer et envoyer au serveur
+    switch(note[0])
+    {
+        case 65:// touche A
+            QMessageBox::information(this,"yeah","yeah");
+            break;
+    }
+    ui->txtNote->setText(""); //Remet à rien les touches entrés pour traiter une seule note à la fois
+}
 
+void Radio_Jam_Client::on_btnConnection_clicked()
+{
+    m_ThreadEnvois->m_Etat = true;
+    m_ThreadEnvois->start();
+    //Il va y avoir un thread/socket pour la réception et un autre pour l'émission
 }
