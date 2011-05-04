@@ -42,5 +42,5 @@ void Radio_Jam_Client::on_btnConnection_clicked()
 
 void Radio_Jam_Client::on_cboInstrument_currentIndexChanged(int index)
 {
-
+    //test, commentaire de cave
 }
