@@ -5,6 +5,7 @@ Thread_Lien_Serveur::Thread_Lien_Serveur(int Instrument, QString Nom, QString IP
     m_Instrument = Instrument;
     m_Nom = Nom;
     m_IP = IP;
+    m_Etat = false;
 }
 
 void Thread_Lien_Serveur::run()
@@ -30,7 +31,7 @@ void Thread_Lien_Serveur::run()
                  m_Etat = true;
              }
         }
-        baReception.clear();
+        baReception.clear(); // Vidage de la variable de réception pour la réutiliser
         while(m_Etat)
         {
             if(socket.waitForReadyRead(100))
@@ -42,8 +43,8 @@ void Thread_Lien_Serveur::run()
 
                 }
                 baReception.clear();// Vidage de la variable de réception
-                Thread_Reception* Thread_Ecoute = new Thread_Reception();
-                Thread_Ecoute->start();
+                Thread_Reception* Thread_JouerSon = new Thread_Reception(m_Instrument,m_IP);// Thread qui va faire jouer les sons selon les touches reçues
+                Thread_JouerSon->start();
             }
             baReception.clear();
         }
