@@ -3,7 +3,7 @@
 
 #include <QThread>
 #include <QTcpSocket>
-#include <Phonon>
+#include "thread_reception.h"
 
 class Thread_Lien_Serveur : public QThread
 {

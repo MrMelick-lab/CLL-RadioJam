@@ -42,6 +42,8 @@ void Thread_Lien_Serveur::run()
 
                 }
                 baReception.clear();// Vidage de la variable de réception
+                Thread_Reception* Thread_Ecoute = new Thread_Reception();
+                Thread_Ecoute->start();
             }
             baReception.clear();
         }
