@@ -34,7 +34,13 @@ void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
 
 void Radio_Jam_Client::on_btnConnection_clicked()
 {
-    m_ThreadEnvois->m_Etat = true;
-    m_ThreadEnvois->start();
+    //Initialisation du thread qui va faire le lien et la réception avec le serveur
+    Thread_Lien_Serveur* ThreadEnvois = new Thread_Lien_Serveur(ui->cboInstrument->currentIndex(),ui->txtNom->text(),ui->txtIP->text());
+    ThreadEnvois->start();
     //Il va y avoir un thread/socket pour la réception et un autre pour l'émission
+}
+
+void Radio_Jam_Client::on_cboInstrument_currentIndexChanged(int index)
+{
+
 }

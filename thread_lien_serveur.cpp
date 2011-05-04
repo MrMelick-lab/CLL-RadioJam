@@ -23,9 +23,9 @@ void Thread_Lien_Serveur::run()
         {
             baReception.append(socket.readAll());
             //Vérifie la réception
-            if(baReception.at(0) == "#")
+            if(baReception.at(0) == '#')
              {
-                 socket.write(QString::number(QString::number(m_Instrument,10).toAscii()));//Envoi du no d'instrument
+                 socket.write(QString::number(m_Instrument,10).toAscii());//Envoi du no d'instrument
                  socket.waitForBytesWritten();
                  m_Etat = true;
              }
@@ -36,13 +36,16 @@ void Thread_Lien_Serveur::run()
             if(socket.waitForReadyRead(100))
             {
                 baReception.append(socket.readAll());
-                if(baReception.at(0) == "N")//Si il y a un nouveau client connecté au serveur
+                if(baReception.at(0) == 'N')//Si il y a un nouveau client connecté au serveur
                 {
+                    //Il va falloir lire le nom et le no d'instru
 
                 }
+                baReception.clear();// Vidage de la variable de réception
             }
             baReception.clear();
         }
     }
-
+    socket.disconnectFromHost(); // Annonce de déconnexion au serveur
+    socket.close(); // Fermeture du socket
 }
