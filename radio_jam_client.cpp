@@ -15,7 +15,7 @@ Radio_Jam_Client::~Radio_Jam_Client()
 
 void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A deleter
 {
-
+//gdfgdfgdfgdfg
 }
 
 //Prend les touches du clavier et on les envois au thread qui les envois au serveur
