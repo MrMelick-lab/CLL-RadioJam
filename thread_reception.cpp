@@ -24,20 +24,14 @@ void Thread_Reception::run()
     socket.connectToHost(m_IP,22224);
     if (socket.waitForConnected(1000)) //Attente d'1 sec maximum sinon, fermer le socket
     {
-        if(socket.waitForReadyRead(1000))
-        {
-            baReception.append(socket.readAll());
-            //Vérifie la réception
-            if(baReception.at(0) == '#')
-                 m_Etat = true;
-        }
-        baReception.clear(); // Vidage de la variable de réception pour la réutiliser
         while(m_Etat)
         {
             if (socket.waitForReadyRead(100))
             {
                 baReception.append(socket.readAll());
                 JouerSon(baReception.at(0));
+                baReception.clear(); // Vidage de la variable de réception pour la réutiliser
+                //VA CHIER JE T'AI MODIFIÉ!!!!!!!!! ALORS COMMIT TOI!!!
             }
         }
     }

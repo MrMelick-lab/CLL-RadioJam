@@ -1,4 +1,5 @@
 #include "thread_lien_serveur.h"
+#include "thread_reception.h"
 
 Thread_Lien_Serveur::Thread_Lien_Serveur(int Instrument, QString Nom, QString IP)
 {
@@ -34,18 +35,24 @@ void Thread_Lien_Serveur::run()
         baReception.clear(); // Vidage de la variable de réception pour la réutiliser
         while(m_Etat)
         {
-            if(socket.waitForReadyRead(100))
+            if(socket.waitForReadyRead())
             {
-                baReception.append(socket.readAll());
+                baReception.append(socket.read(1));
                 if(baReception.at(0) == 'N')//Si il y a un nouveau client connecté au serveur
                 {
-                    //Il va falloir lire le nom et le no d'instru
+                    if(socket.waitForReadyRead())
+                    {
+                        baReception.append(socket.read(1));//Réception du nom
+                        if(socket.waitForReadyRead())
+                        {
+                            baReception.append(socket.read(1));//Réception de l'instrument
+                            Thread_Reception* NouveauRecepteur = new Thread_Reception(baReception.at(2), m_IP);
+                            NouveauRecepteur->start();
+                        }
+                    }
                 }
                 baReception.clear();// Vidage de la variable de réception
-                Thread_Reception* Thread_JouerSon = new Thread_Reception(m_Instrument,m_IP);// Thread qui va faire jouer les sons selon les touches reçues
-                Thread_JouerSon->start();
             }
-            baReception.clear();
         }
     }
     socket.disconnectFromHost(); // Annonce de déconnexion au serveur
