@@ -17,7 +17,7 @@ public:
 private:
     QString m_IP;
     bool m_Etat;
-
+    QString m_NomInstrument;
     void JouerSon(int note);
 
 protected:
