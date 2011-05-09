@@ -2,20 +2,19 @@
 
 Thread_Reception::Thread_Reception(int instrument, QString IP)
 {
-    m_Instrument = instrument;
     m_IP = IP;
-    //Reste à mettre la variable QDIR qui va contenir la liste des fichiers
+    QDir dossier;
+    if(instrument == 0)
+        dossier = QDir(QDir::currentPath() + "/Bass");
+    else
+        dossier = QDir(QDir::currentPath() + "/Drum");
+    m_ListeSon = dossier.entryList();
 }
 
 void Thread_Reception::run()
 {
     QTcpSocket socket;
     QByteArray baReception;
-    Phonon::MediaObject *mediaObject = new Phonon::MediaObject(this);;
-    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::VideoCategory, this);
-    Phonon::createPath(mediaObject, audioOutput);
-    mediaObject->setCurrentSource(Phonon::MediaSource("variable QDIR pas encore fait"));
-
     socket.connectToHost(m_IP,22224); // À vérifier pour avoir le bon numéro de port
     if (socket.waitForConnected(1000)) //Attente d'1 sec maximum sinon, fermer le socket
     {
@@ -29,16 +28,43 @@ void Thread_Reception::run()
         baReception.clear(); // Vidage de la variable de réception pour la réutiliser
         while(m_Etat)
         {
-            if(socket.readyRead(100))
-            baReception.append(socket.readAll());
-            switch (baReception.at(0))
+            if (socket.waitForReadyRead(100))
             {
-                case 65: //Ascii de a, reste à savoir comment le serveur va répondre avec un char ou une valeur en ASCII directe
-
-                break;
+                baReception.append(socket.readAll());
+                JouerSon(baReception.at(0));
             }
         }
     }
     socket.disconnectFromHost(); // Annonce de déconnexion au serveur
     socket.close(); // Fermeture du socket
+}
+
+void Thread_Reception::JouerSon(int note)
+{
+    Phonon::MediaObject *mediaObject = new Phonon::MediaObject();
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::VideoCategory);
+    Phonon::createPath(mediaObject, audioOutput);
+    QMutex mutex; //Synchroniser accès à un fichier
+    switch(note) // suite va de q à u et de a à k
+    {
+        case 81: //Ascii de Q
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(0)));
+        break;
+        case 87: //Ascii de W
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(1)));
+        break;
+        case 69: //Ascii de E
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(2)));
+        break;
+        case 82: //Ascii de R
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(3)));
+        break;
+        case 84: //Ascii de T
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(4)));
+        break;
+        case 89: //Ascii de Y
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_ListeSon.at(3)));
+        break;
+    }
+    mediaObject->play();
 }

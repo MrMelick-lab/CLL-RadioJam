@@ -4,17 +4,21 @@
 #include <QThread>
 #include <Phonon>
 #include<QTcpSocket>
+#include <QDir>
+#include <QMutex>
 
 class Thread_Reception : public QThread
 {
     Q_OBJECT
 public:
     Thread_Reception(int instrument, QString IP);
+    QStringList m_ListeSon;
 
 private:
-    int m_Instrument;
     QString m_IP;
     bool m_Etat;
+
+    void JouerSon(int note);
 
 protected:
     void run();

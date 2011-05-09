@@ -40,7 +40,6 @@ void Thread_Lien_Serveur::run()
                 if(baReception.at(0) == 'N')//Si il y a un nouveau client connecté au serveur
                 {
                     //Il va falloir lire le nom et le no d'instru
-
                 }
                 baReception.clear();// Vidage de la variable de réception
                 Thread_Reception* Thread_JouerSon = new Thread_Reception(m_Instrument,m_IP);// Thread qui va faire jouer les sons selon les touches reçues
