@@ -13,7 +13,7 @@ Radio_Jam_Client::~Radio_Jam_Client()
     delete ui;
 }
 
-void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A deleter
+void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A enlever
 {
 //gdfgdfgdfgdfg
 }
@@ -26,7 +26,7 @@ void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
     switch(note[0])
     {
         case 65:// touche A
-            QMessageBox::information(this,"yeah","yeah");
+            QMessageBox::information(this,"yeah","yeah"); // Si touche == l ne pas l'envoyer car c'est un message pour déconnection
             break;
     }
     ui->txtNote->setText(""); //Remet à rien les touches entrés pour traiter une seule note à la fois
@@ -35,8 +35,17 @@ void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
 void Radio_Jam_Client::on_btnConnection_clicked()
 {
     //Initialisation du thread qui va faire le lien et la réception avec le serveur
-    Thread_Lien_Serveur* ThreadEnvois = new Thread_Lien_Serveur(ui->cboInstrument->currentIndex(),ui->txtNom->text(),ui->txtIP->text());
-    ThreadEnvois->start();
+    if(ui->btnConnection->text() == "Connection")
+    {
+        ui->btnConnection->setText("Deconnection");
+        m_ThreadEnvois = new Thread_Lien_Serveur(ui->cboInstrument->currentIndex(),ui->txtNom->text(),ui->txtIP->text());
+        m_ThreadEnvois->start();
+    }
+    else
+    {
+        m_ThreadEnvois->m_Etat =false;
+        ui->btnConnection->setText("Connection");
+    }
     //Il va y avoir un thread/socket pour la réception et un autre pour l'émission
 }
 

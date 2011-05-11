@@ -29,6 +29,7 @@ private slots:
 
 private:
     Ui::Radio_Jam_Client *ui;
+    Thread_Lien_Serveur* m_ThreadEnvois;
 };
 
 #endif // RADIO_JAM_CLIENT_H

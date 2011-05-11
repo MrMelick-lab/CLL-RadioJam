@@ -6,8 +6,8 @@ Thread_Reception::Thread_Reception(int instrument, QString IP)
     QDir dossier;
     if(instrument == 0)
     {
-        dossier = QDir(QDir::currentPath() + "/Bass");
-        m_NomInstrument = "Bass/";
+        dossier = QDir(QDir::currentPath() + "/Basse");
+        m_NomInstrument = "Basse/";
     }
     else
     {
@@ -29,9 +29,8 @@ void Thread_Reception::run()
             if (socket.waitForReadyRead(100))
             {
                 baReception.append(socket.readAll());
-                JouerSon(baReception.at(0));
+                JouerSon(baReception.at(0)); //Jouer le son selon la note reçues
                 baReception.clear(); // Vidage de la variable de réception pour la réutiliser
-                //VA CHIER JE T'AI MODIFIÉ!!!!!!!!! ALORS COMMIT TOI!!!
             }
         }
     }
