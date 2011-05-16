@@ -66,6 +66,9 @@
       <height>27</height>
      </rect>
     </property>
+    <property name="text">
+     <string>java</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="btnConnection">
     <property name="geometry">
@@ -124,6 +127,9 @@
       <width>131</width>
       <height>27</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>10.1.1.112</string>
     </property>
    </widget>
    <widget class="QLabel" name="lblIP">

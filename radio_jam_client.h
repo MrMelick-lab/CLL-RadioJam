@@ -27,9 +27,14 @@ private slots:
 
     void on_cboInstrument_currentIndexChanged(int index);
 
+    void DeconnexionServeur();
+
 private:
     Ui::Radio_Jam_Client *ui;
     Thread_Lien_Serveur* m_ThreadEnvois;
+
+signals:
+    void NoteJouer(int note);
 };
 
 #endif // RADIO_JAM_CLIENT_H

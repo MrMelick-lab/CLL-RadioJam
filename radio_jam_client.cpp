@@ -22,13 +22,8 @@ void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A enlever
 void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
 {
     touche = touche.toUpper(); //Met en majuscule la touche entrée pour valider
-    QByteArray note = touche.toAscii(); //Met en ascii dans un tableau d'octet pour comparer et envoyer au serveur
-    switch(note[0])
-    {
-        case 65:// touche A
-            QMessageBox::information(this,"yeah","yeah"); // Si touche == l ne pas l'envoyer car c'est un message pour déconnection
-            break;
-    }
+    QByteArray note = touche.toAscii(); //Met en ascii dans un tableau d'octet pour comparer
+    emit NoteJouer(note[0]); //Envois de la touche du clavier au thread lien serveur pour qu'il l'envois au serveur
     ui->txtNote->setText(""); //Remet à rien les touches entrés pour traiter une seule note à la fois
 }
 
@@ -39,6 +34,8 @@ void Radio_Jam_Client::on_btnConnection_clicked()
     {
         ui->btnConnection->setText("Deconnection");
         m_ThreadEnvois = new Thread_Lien_Serveur(ui->cboInstrument->currentIndex(),ui->txtNom->text(),ui->txtIP->text());
+        connect(this,SIGNAL(NoteJouer(int)),m_ThreadEnvois,SLOT(EnvoisNote(int)));
+        connect(m_ThreadEnvois, SIGNAL(ServeurFerme()),this,SLOT(DeconnexionServeur()));
         m_ThreadEnvois->start();
     }
     else
@@ -47,6 +44,12 @@ void Radio_Jam_Client::on_btnConnection_clicked()
         ui->btnConnection->setText("Connection");
     }
     //Il va y avoir un thread/socket pour la réception et un autre pour l'émission
+}
+
+void Radio_Jam_Client::DeconnexionServeur()
+{
+    ui->btnConnection->setText("Connection");
+    QMessageBox::information(this,"Déconnexion du serveur","Le serveur à mis fin à la connexion.");
 }
 
 void Radio_Jam_Client::on_cboInstrument_currentIndexChanged(int index)

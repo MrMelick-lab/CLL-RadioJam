@@ -11,57 +11,69 @@ Thread_Lien_Serveur::Thread_Lien_Serveur(int Instrument, QString Nom, QString IP
 
 void Thread_Lien_Serveur::run()
 {
-    QTcpSocket socket;
     QByteArray baReception;
 
-    socket.connectToHost(m_IP, 22222);
-    if(socket.waitForConnected()) // Attente d'1 sec maximum sinon, fermer le socket
+    m_socket.connectToHost(m_IP, 22222);
+    if(m_socket.waitForConnected()) // Attente d'1 sec maximum sinon, fermer le socket
     {
-        if(socket.waitForReadyRead())
+        if(m_socket.waitForReadyRead(5000))
         {
-            socket.readAll();
+            m_socket.readAll();
             //Envoi des données identifiants l'utilisateur: nom et instrument choisi.
-            socket.write(m_Nom.toAscii());
-            socket.waitForBytesWritten();
+            m_socket.write(m_Nom.toAscii());
+            m_socket.waitForBytesWritten();
 
-            if(socket.waitForReadyRead())
+            if(m_socket.waitForReadyRead(5000))
             {
-                baReception.append(socket.readAll());
+                baReception.append(m_socket.readAll());
                 //Vérifie la réception
                 if(baReception.at(0) == '#')
                  {
-                     socket.write(QString::number(m_Instrument,10).toAscii());//Envoi du no d'instrument
-                     socket.waitForBytesWritten();
+                     m_socket.write(QString::number(m_Instrument,10).toAscii());//Envoi du no d'instrument
+                     m_socket.waitForBytesWritten();
                      m_Etat = true;
                  }
             }
             baReception.clear(); // Vidage de la variable de réception pour la réutiliser
             while(m_Etat)
             {
-                if(socket.waitForReadyRead(1000))
+                if(m_socket.waitForReadyRead(1000))
                 {
-                    baReception.append(socket.read(1));
+                    baReception.append(m_socket.read(1));
                     if(baReception.at(0) == 'N')//Si il y a un nouveau client connecté au serveur
                     {
-                        if(socket.waitForReadyRead(1000))
+                        if(m_socket.waitForReadyRead(1000))
                         {
-                            baReception.append(socket.read(1));//Réception du nom
-                            if(socket.waitForReadyRead(1000))
+                            baReception.append(m_socket.read(1));//Réception du nom
+                            if(m_socket.waitForReadyRead(1000))
                             {
-                                baReception.append(socket.read(1));//Réception de l'instrument
+                                baReception.append(m_socket.read(1));//Réception de l'instrument
                                 Thread_Reception* NouveauRecepteur = new Thread_Reception(baReception.at(2), m_IP);
                                 NouveauRecepteur->start();
                             }
                         }
                     }
+                    else if (baReception.at(0) == 'L')
+                    {
+                        m_Etat = false;
+                        emit ServeurFerme();
+                    }
                     baReception.clear();// Vidage de la variable de réception
                 }
             }
-
         }
     }
-    socket.write("L");
-    socket.waitForBytesWritten();
-    socket.disconnectFromHost(); // Annonce de déconnexion au serveur
-    socket.close(); // Fermeture du socket
+    m_socket.write("L");
+    m_socket.waitForBytesWritten();
+    m_socket.disconnectFromHost(); // Annonce de déconnexion au serveur
+    m_socket.close(); // Fermeture du socket
+    this->quit();
+}
+
+void Thread_Lien_Serveur::EnvoisNote(int note)
+{
+   QByteArray BufferEnvois;
+   BufferEnvois[0] = note;
+   //if(m_socket
+   m_socket.write(BufferEnvois);
 }
