@@ -26,6 +26,7 @@ class Thread_Lien_Serveur : public QThread
 
     signals:
         void ServeurFerme();
+        void EnvoisNomIns(QString, int);
 };
 
 #endif // THREAD_LIEN_SERVEUR_H

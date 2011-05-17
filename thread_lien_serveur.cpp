@@ -35,6 +35,9 @@ void Thread_Lien_Serveur::run()
                  }
             }
             baReception.clear(); // Vidage de la variable de réception pour la réutiliser
+            Thread_Reception* NouveauRecepteur = new Thread_Reception(m_IP);
+            NouveauRecepteur->start();
+            connect(this,SIGNAL(EnvoisNomIns(QString,int)),NouveauRecepteur, SLOT(RecevoirNomIns(QString,int)));
             while(m_Etat)
             {
                 if(m_socket.waitForReadyRead(1000))
@@ -48,8 +51,6 @@ void Thread_Lien_Serveur::run()
                             if(m_socket.waitForReadyRead(1000))
                             {
                                 baReception.append(m_socket.read(1));//Réception de l'instrument
-                                Thread_Reception* NouveauRecepteur = new Thread_Reception(baReception.at(2), m_IP);
-                                NouveauRecepteur->start();
                             }
                         }
                     }
@@ -74,6 +75,9 @@ void Thread_Lien_Serveur::EnvoisNote(int note)
 {
    QByteArray BufferEnvois;
    BufferEnvois[0] = note;
-   //if(m_socket
+   QVariant nom;
+   nom.setValue(m_Nom);
+   BufferEnvois[1] = nom.BitArray;
    m_socket.write(BufferEnvois);
+   m_socket.waitForBytesWritten();
 }

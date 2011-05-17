@@ -13,10 +13,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         radio_jam_client.cpp \
     thread_lien_serveur.cpp \
-    thread_reception.cpp
+    thread_reception.cpp \
+    thread_son.cpp
 
 HEADERS  += radio_jam_client.h \
     thread_lien_serveur.h \
-    thread_reception.h
+    thread_reception.h \
+    thread_son.h
 
 FORMS    += radio_jam_client.ui

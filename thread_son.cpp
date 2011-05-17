@@ -1,0 +1,90 @@
+#include "thread_son.h"
+
+Thread_Son::Thread_Son(QString Nom, int Instrument)
+{
+    m_Nom = Nom;
+    m_Instrument = Instrument;
+    QDir dossier;
+    if(Instrument == 0)
+    {
+        dossier = QDir(QDir::currentPath() + "/Basse");
+        m_NomInstrument = "Basse/";
+    }
+    else
+    {
+        dossier = QDir(QDir::currentPath() + "/Drum");
+        m_NomInstrument = "Drum/";
+    }
+    m_ListeSon = dossier.entryList();
+}
+
+void Thread_Son::JouerSon(int note)
+{
+    Phonon::MediaObject *mediaObject = new Phonon::MediaObject();
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::VideoCategory);
+    Phonon::createPath(mediaObject, audioOutput);
+    //QMutex mutex; //Synchroniser accès à un fichier
+    switch(note) // suite va de q à u et de a à k
+    {
+        case 81: //Ascii de Q
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(0)));
+            mediaObject->play();
+        break;
+        case 87: //Ascii de W
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(1)));
+            mediaObject->play();
+        break;
+        case 69: //Ascii de E
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(2)));
+            mediaObject->play();
+        break;
+        case 82: //Ascii de R
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(3)));
+            mediaObject->play();
+        break;
+        case 84: //Ascii de T
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(4)));
+            mediaObject->play();
+        break;
+        case 89: //Ascii de Y
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(5)));
+            mediaObject->play();
+        break;
+        case 85: //Ascii de U
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(6)));
+            mediaObject->play();
+        break;
+        case 65: //Ascii de A
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(7)));
+            mediaObject->play();
+        break;
+        case 83: //Ascii de S
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(8)));
+            mediaObject->play();
+        break;
+        case 68: //Ascii de D
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(9)));
+            mediaObject->play();
+        break;
+        case 70: //Ascii de F
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(10)));
+            mediaObject->play();
+        break;
+        case 71: //Ascii de G
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(11)));
+            mediaObject->play();
+        break;
+        case 72: //Ascii de H
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(12)));
+            mediaObject->play();
+        break;
+        case 74: //Ascii de J
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(13)));
+            mediaObject->play();
+        break;
+        case 75: //Ascii de K
+            mediaObject->setCurrentSource(Phonon::MediaSource(m_NomInstrument + m_ListeSon.at(14)));
+            mediaObject->play();
+        break;
+     }
+}
