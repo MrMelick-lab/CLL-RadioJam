@@ -19,7 +19,7 @@ void Thread_Reception::run()
                 m_baReception.append(socket.read(1));
                 emit NoteRecue(m_baReception.at(0));
 //                JouerSon(baReception.at(0)); //Jouer le son selon la note reçues
-//                baReception.clear(); // Vidage de la variable de réception pour la réutiliser
+                m_baReception.clear(); // Vidage de la variable de réception pour la réutiliser
             }
         }
     }

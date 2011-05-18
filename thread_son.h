@@ -19,6 +19,8 @@ class Thread_Son : public QThread
 
     private slots:
        void JouerSon(int note);
+
+
 };
 
 #endif // THREAD_SON_H

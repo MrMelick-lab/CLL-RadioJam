@@ -38,6 +38,7 @@ void Thread_Lien_Serveur::run()
             Thread_Reception* NouveauRecepteur = new Thread_Reception(m_IP);
             NouveauRecepteur->start();
             connect(this,SIGNAL(EnvoisNomIns(QString,int)),NouveauRecepteur, SLOT(RecevoirNomIns(QString,int)));
+
             while(m_Etat)
             {
                 if(m_socket.waitForReadyRead(1000))
@@ -47,11 +48,22 @@ void Thread_Lien_Serveur::run()
                     {
                         if(m_socket.waitForReadyRead(1000))
                         {
-                            baReception.append(m_socket.read(1));//Réception du nom
-                            if(m_socket.waitForReadyRead(1000))
+                            baReception.clear();
+                            baReception.append(m_socket.readAll());//Réception du nom et de l'instrument
+                            QVariant vtrame;
+                            vtrame.setValue(baReception);
+                            QString nom ="";
+
+                            for(int i = 0; i < vtrame.toString().length()-1; i++)
                             {
-                                baReception.append(m_socket.read(1));//Réception de l'instrument
+                                nom += vtrame.toString().at(i);
                             }
+                            if((vtrame.toString().at(vtrame.toString().length()-1)) == '0')
+                            {
+                                emit EnvoisNomIns(nom, 0);
+                            }
+                            else
+                                emit EnvoisNomIns(nom, 1);
                         }
                     }
                     else if (baReception.at(0) == 'L')
@@ -75,9 +87,9 @@ void Thread_Lien_Serveur::EnvoisNote(int note)
 {
    QByteArray BufferEnvois;
    BufferEnvois[0] = note;
-   QVariant nom;
-   nom.setValue(m_Nom);
-   BufferEnvois[1] = nom.BitArray;
+//   QVariant nom;
+//   nom.setValue(m_Nom);
+//   BufferEnvois[1] = nom.BitArray;
    m_socket.write(BufferEnvois);
    m_socket.waitForBytesWritten();
 }

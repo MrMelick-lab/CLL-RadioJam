@@ -13,11 +13,6 @@ Radio_Jam_Client::~Radio_Jam_Client()
     delete ui;
 }
 
-void Radio_Jam_Client::on_lineEdit_textEdited(QString touche)//A enlever
-{
-//gdfgdfgdfgdfg
-}
-
 //Prend les touches du clavier et on les envois au thread qui les envois au serveur
 void Radio_Jam_Client::on_txtNote_textEdited(QString touche)
 {
@@ -52,7 +47,3 @@ void Radio_Jam_Client::DeconnexionServeur()
     QMessageBox::information(this,"Déconnexion du serveur","Le serveur à mis fin à la connexion.");
 }
 
-void Radio_Jam_Client::on_cboInstrument_currentIndexChanged(int index)
-{
-    //test, commentaire de cave
-}

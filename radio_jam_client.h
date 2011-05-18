@@ -19,13 +19,9 @@ public:
     ~Radio_Jam_Client();
 
 private slots:
-    void on_lineEdit_textEdited(QString );
-
     void on_txtNote_textEdited(QString );
 
     void on_btnConnection_clicked();
-
-    void on_cboInstrument_currentIndexChanged(int index);
 
     void DeconnexionServeur();
 
