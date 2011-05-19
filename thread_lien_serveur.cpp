@@ -35,9 +35,8 @@ void Thread_Lien_Serveur::run()
                  }
             }
             baReception.clear(); // Vidage de la variable de réception pour la réutiliser
-            Thread_Reception* NouveauRecepteur = new Thread_Reception(m_IP);
-            NouveauRecepteur->start();
-            connect(this,SIGNAL(EnvoisNomIns(QString,int)),NouveauRecepteur, SLOT(RecevoirNomIns(QString,int)));
+//           connect(this,SIGNAL(EnvoisNomIns(QString,int)),NouveauRecepteur, SLOT(RecevoirNomIns(QString,int)));
+            //Envoi un signal à l'application principale pour qu'elle commence qui fasse le thread de réception
 
             while(m_Etat)
             {
@@ -60,10 +59,10 @@ void Thread_Lien_Serveur::run()
                             }
                             if((vtrame.toString().at(vtrame.toString().length()-1)) == '0')
                             {
-                                emit EnvoisNomIns(nom, 0);
+                                emit CreerThreadReception(nom,0);
                             }
                             else
-                                emit EnvoisNomIns(nom, 1);
+                                emit CreerThreadReception(nom,1);
                         }
                     }
                     else if (baReception.at(0) == 'L')
@@ -82,6 +81,7 @@ void Thread_Lien_Serveur::run()
     m_socket.close(); // Fermeture du socket
     this->quit();
 }
+
 
 void Thread_Lien_Serveur::EnvoisNote(int note)
 {

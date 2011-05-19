@@ -27,18 +27,27 @@ void Radio_Jam_Client::on_btnConnection_clicked()
     //Initialisation du thread qui va faire le lien et la réception avec le serveur
     if(ui->btnConnection->text() == "Connection")
     {
+        ui->txtIP->setReadOnly(true);
         ui->btnConnection->setText("Deconnection");
         m_ThreadEnvois = new Thread_Lien_Serveur(ui->cboInstrument->currentIndex(),ui->txtNom->text(),ui->txtIP->text());
+        m_ThreadEnvois->start();
         connect(this,SIGNAL(NoteJouer(int)),m_ThreadEnvois,SLOT(EnvoisNote(int)));
         connect(m_ThreadEnvois, SIGNAL(ServeurFerme()),this,SLOT(DeconnexionServeur()));
-        m_ThreadEnvois->start();
+        connect(m_ThreadEnvois, SIGNAL(CreerThreadReception(QString,int)),this,SLOT(PartirThreadReception(QString,int)));
     }
     else
     {
         m_ThreadEnvois->m_Etat =false;
+        ui->txtIP->setReadOnly(false);
         ui->btnConnection->setText("Connection");
     }
-    //Il va y avoir un thread/socket pour la réception et un autre pour l'émission
+}
+
+void Radio_Jam_Client::PartirThreadReception(QString nom, int Instrument)
+{
+   Thread_Reception* NouveauRecepteur = new Thread_Reception(ui->txtIP->text(),nom,Instrument);
+   ui->lclient->addItem(nom);
+   NouveauRecepteur->start();
 }
 
 void Radio_Jam_Client::DeconnexionServeur()
@@ -47,3 +56,8 @@ void Radio_Jam_Client::DeconnexionServeur()
     QMessageBox::information(this,"Déconnexion du serveur","Le serveur à mis fin à la connexion.");
 }
 
+
+void Radio_Jam_Client::on_pbMUTE_clicked()
+{
+
+}

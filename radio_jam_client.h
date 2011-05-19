@@ -25,12 +25,19 @@ private slots:
 
     void DeconnexionServeur();
 
+    void PartirThreadReception(QString,int);
+
+    void on_pbMUTE_clicked();
+
 private:
     Ui::Radio_Jam_Client *ui;
     Thread_Lien_Serveur* m_ThreadEnvois;
 
 signals:
     void NoteJouer(int note);
+
+    void PartirBoucle();
+
 };
 
 #endif // RADIO_JAM_CLIENT_H
