@@ -35,8 +35,6 @@ void Thread_Lien_Serveur::run()
                  }
             }
             baReception.clear(); // Vidage de la variable de réception pour la réutiliser
-//           connect(this,SIGNAL(EnvoisNomIns(QString,int)),NouveauRecepteur, SLOT(RecevoirNomIns(QString,int)));
-            //Envoi un signal à l'application principale pour qu'elle commence qui fasse le thread de réception
 
             while(m_Etat)
             {
@@ -87,9 +85,6 @@ void Thread_Lien_Serveur::EnvoisNote(int note)
 {
    QByteArray BufferEnvois;
    BufferEnvois[0] = note;
-//   QVariant nom;
-//   nom.setValue(m_Nom);
-//   BufferEnvois[1] = nom.BitArray;
    m_socket.write(BufferEnvois);
    m_socket.waitForBytesWritten();
 }

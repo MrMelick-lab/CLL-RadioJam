@@ -24,23 +24,10 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pbMUTE">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>130</y>
-      <width>93</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>MUTE</string>
-    </property>
-   </widget>
    <widget class="QComboBox" name="cboInstrument">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>410</x>
       <y>130</y>
       <width>191</width>
       <height>27</height>
@@ -67,7 +54,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>java</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="btnConnection">
@@ -129,7 +116,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>10.1.1.112</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="lblIP">
@@ -148,7 +135,7 @@
    <widget class="QLabel" name="lblInstrument">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>410</x>
       <y>100</y>
       <width>191</width>
       <height>17</height>
@@ -169,6 +156,19 @@
     </property>
     <property name="text">
      <string>Liste des usagers</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblExplication">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>260</y>
+      <width>201</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Touche va de q à u et de a à k</string>
     </property>
    </widget>
   </widget>

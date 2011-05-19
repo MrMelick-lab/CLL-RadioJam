@@ -56,8 +56,3 @@ void Radio_Jam_Client::DeconnexionServeur()
     QMessageBox::information(this,"Déconnexion du serveur","Le serveur à mis fin à la connexion.");
 }
 
-
-void Radio_Jam_Client::on_pbMUTE_clicked()
-{
-
-}

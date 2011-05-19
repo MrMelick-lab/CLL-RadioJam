@@ -20,6 +20,7 @@ Thread_Reception::Thread_Reception(QString IP,QString Nom, int Instrument)
     m_ListeSon = dossier.entryList();
     mediaObject = new Phonon::MediaObject(this);
     audioOutput = new Phonon::AudioOutput(Phonon::VideoCategory,this);
+
 }
 
 void Thread_Reception::run()
@@ -29,6 +30,9 @@ void Thread_Reception::run()
     socket.connectToHost(m_IP,22224);
     if (socket.waitForConnected(1000)) //Attente d'1 sec maximum sinon, fermer le socket
     {
+        Phonon::createPath(mediaObject, audioOutput);
+        mediaObject->setCurrentSource(Phonon::MediaSource("ouverture_cool.mp3"));
+        mediaObject->play();
         while(m_Etat)
         {
             if (socket.waitForReadyRead(100))

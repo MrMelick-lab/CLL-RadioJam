@@ -27,8 +27,6 @@ private slots:
 
     void PartirThreadReception(QString,int);
 
-    void on_pbMUTE_clicked();
-
 private:
     Ui::Radio_Jam_Client *ui;
     Thread_Lien_Serveur* m_ThreadEnvois;
