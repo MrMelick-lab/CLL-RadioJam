@@ -5,9 +5,7 @@
 #include <Phonon>
 #include<QTcpSocket>
 #include <QDir>
-#include <QMutex>
 #include <thread_lien_serveur.h>
-#include <thread_son.h>
 
 class Thread_Reception : public QThread
 {
